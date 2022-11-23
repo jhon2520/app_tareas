@@ -1,7 +1,9 @@
 
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:tareitas/consts/app_const.dart';
 import 'package:tareitas/models/task_model.dart';
+import 'package:tareitas/state/task_bloc/task_bloc.dart';
 import 'package:tareitas/utils/enums/custom_spacer_enum.dart';
 import 'package:tareitas/utils/styles/color_utils.dart';
 import 'package:tareitas/widgets/custom_spacer.dart';
@@ -50,6 +52,9 @@ class _CardTaskContainer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
+    final taskBloc = BlocProvider.of<TaskBloc>(context);
+
     final textStyle = AppConst.fontStyleBold.copyWith(color: AppConst.whiteColor);
     return Column(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -85,7 +90,9 @@ class _CardTaskContainer extends StatelessWidget {
             CircleAvatar(
               backgroundColor: AppConst.deleteColor,
               child: IconButton(
-                onPressed: (){}, 
+                onPressed: (){
+                  taskBloc.add(DeleteTaskEvent(task.taskId!));
+                }, 
                 icon: const Icon(Icons.delete, color: AppConst.taksBackgroundColor,))),
           ],
         ),

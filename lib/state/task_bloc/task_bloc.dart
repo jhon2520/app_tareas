@@ -15,7 +15,7 @@ class TaskBloc extends Bloc<TaskEvents,TasksState>{
 
       log("Se activó usuario");
       List<TaskModel> listAux = [...[event.newTaks], ...state.taks ?? []];
-      emit(TaskSetState( newTaksList: listAux,newCurrentTask: state.currentTaks));
+      emit(TaskSetState( newTaksList: listAux));
       
     },);
 
@@ -23,8 +23,16 @@ class TaskBloc extends Bloc<TaskEvents,TasksState>{
     on<SetCurrentTaskEvent>((event, emit) {
 
 
-      emit(TaskSetState(newTaksList: state.taks,newCurrentTask: event.currentTask));
-      log("titulo: ${event.currentTask.titulo} Description ${event.currentTask.descripcion} id ${event.currentTask.taskId} state: ${event.currentTask.state} date: ${event.currentTask.date} color: ${event.currentTask.taskColor} ");
+      emit(TaskSetProgressState(newCurrentTask: event.currentTask));
+      //log("titulo: ${event.currentTask.titulo} Description ${event.currentTask.descripcion} id ${event.currentTask.taskId} state: ${event.currentTask.state} date: ${event.currentTask.date} color: ${event.currentTask.taskColor} ");
+    },);
+
+    on<DeleteTaskEvent>((event, emit) {
+      
+      List<TaskModel>? newList = state.taks?.where((element) => element.taskId != event.idTaskToDelete).toList();
+
+      emit(TaskSetState(newTaksList: newList));
+
     },);
 
   }

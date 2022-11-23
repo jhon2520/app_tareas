@@ -18,3 +18,11 @@ class SetCurrentTaskEvent extends TaskEvents{
 
   SetCurrentTaskEvent(this.currentTask);
 }
+
+class DeleteTaskEvent extends TaskEvents{
+
+  final String idTaskToDelete;
+
+  DeleteTaskEvent(this.idTaskToDelete);
+
+}

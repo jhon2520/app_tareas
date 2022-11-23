@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:tareitas/widgets/task_widget.dart';
-
 import '../state/task_bloc/task_bloc.dart';
+import 'widget.dart' show CustomNoTaskWidget, TaskWidget;
 
 class TasksList extends StatelessWidget {
   const TasksList({
@@ -21,8 +20,8 @@ class TasksList extends StatelessWidget {
         child: BlocBuilder<TaskBloc, TasksState>(
           builder: (context, state) {
 
-            if(state.existTask == false || state.taks == null){
-              return Center(child: Text("No hay tareas registradas"));
+            if(state.existTask == false || state.taks == null || state.taks!.isEmpty){
+              return const Center(child: CustomNoTaskWidget());
             }
 
             final task = state.taks;

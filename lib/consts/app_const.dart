@@ -22,6 +22,8 @@ class AppConst{
   static const String labelAdd = "A d d";
   static const String labelCancel = "C a n c e l";
   static const String labelCreateTaks = "C r e a t e  T a s k";
+  static const String labelNoTasks = "No hay tareas registradas";
+  static const String labelCreateTasks = "¡Crea una nueva!";
   static  InputBorder formFieldBorder = OutlineInputBorder(
                         borderRadius: BorderRadius.circular(30),
                         borderSide: const BorderSide(color: AppConst.backgrounColor));
