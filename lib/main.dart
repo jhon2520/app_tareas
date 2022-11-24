@@ -3,6 +3,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:tareitas/screens/taks_screen.dart';
 import 'package:tareitas/state/task_bloc/task_bloc.dart';
 
+import 'models/task_model.dart';
+
 void main() => runApp(const MyApp());
 
 class MyApp extends StatelessWidget {
@@ -12,7 +14,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return  MultiBlocProvider(
       providers: [
-        BlocProvider(create: (context)=> TaskBloc())
+        BlocProvider(create: (context)=> TaskBloc()..add(SetCurrentTaskEvent(TaskModel())))
       ],
       child: const MaterialApp(
         debugShowCheckedModeBanner: false ,
@@ -22,3 +24,4 @@ class MyApp extends StatelessWidget {
     );
   }
 }
+   

@@ -8,7 +8,7 @@ import 'package:tareitas/state/task_bloc/task_bloc.dart';
 import 'package:tareitas/utils/utils.dart';
 import 'package:tareitas/widgets/primary_button.dart';
 import 'package:tareitas/widgets/secondary_button.dart';
-import 'package:tareitas/widgets/widget.dart' show CustomFormDatePicker, CustomFormDropDown, CustomFormField, CustomSpacer;
+import 'package:tareitas/widgets/widget.dart' show CustomColorPicker, CustomFormDatePicker, CustomFormDropDown, CustomFormField, CustomSpacer;
 import '../utils/enums/enum.dart' show CustomSpacerSizeEnum, TaskState;
 
 
@@ -46,9 +46,11 @@ class _NewTaskScreenState extends State<NewTaskScreen> {
   Widget build(BuildContext context) {
 
     final taskBloc = BlocProvider.of<TaskBloc>(context);
+    final GlobalKey<ScaffoldState> _scafoldKey = GlobalKey<ScaffoldState>();
 
 
     return Scaffold(
+      key: _scafoldKey,
       backgroundColor: AppConst.backgrounColor.withOpacity(0.8),
       appBar: AppBar(
         centerTitle: true,
@@ -83,14 +85,17 @@ class _NewTaskScreenState extends State<NewTaskScreen> {
                 const CustomSpacer(size: CustomSpacerSizeEnum.xl,),
                 const CustomFormDatePicker(),
                 const CustomSpacer(size: CustomSpacerSizeEnum.xxl,),
-                IconButton(onPressed: ()=>_showColorPicker(context,taskBloc), 
-                  icon: Icon(Icons.color_lens,color: AppConst.whiteColor,size: 45,)),
+                const CustomColorPicker(),
+
+              
               
                 const CustomSpacer(size: CustomSpacerSizeEnum.xxl,),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
-                    SecondaryButton(label: AppConst.labelCancel, onPressed: (){},),
+                    SecondaryButton(label: AppConst.labelCancel, onPressed: (){
+                      newMethod(context, Colors.red);
+                    },),
                     const CustomSpacer(size: CustomSpacerSizeEnum.x, isHorizontal: true,),
                     PrimaryButton(label: AppConst.labelAdd,onPressed: (){
 
@@ -108,47 +113,14 @@ class _NewTaskScreenState extends State<NewTaskScreen> {
     );
   }
 
-  void _showColorPicker(BuildContext context,TaskBloc taskBloc ) {
-    Color mycolor = Colors.lightBlue;
-    showDialog(
-
-      context: context,
-      builder: (context) {
-        return AlertDialog(
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.all(Radius.circular(20)),
-            side: BorderSide(
-              color: AppConst.whiteColor
-            )
-          ),
-          backgroundColor: AppConst.backgrounColor,
-          content: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              ColorPicker(
-                pickerColor: mycolor,
-                onColorChanged: (value) {
-                  print(value);
-                   final currentTask = taskBloc.state.currentTaks!.copyWith(
-                    taskColor: value);
-                    taskBloc.add(SetCurrentTaskEvent(currentTask));
-
-                },
-              ),
-            ],
-          ),
-              actions: <Widget>[
-              ElevatedButton(
-                child: const Text('DONE'),
-                onPressed: () {
-                  Navigator.of(context).pop(); //dismiss the color picker
-                },
-              ),
-            ],
-        );
-      },
-    );
+  void newMethod(BuildContext context,Color? color) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          backgroundColor: color ,
+          content: Text("oeoeoeo")));
   }
+
+  
 
   void _createNewTask(TaskBloc taskBloc) {
       

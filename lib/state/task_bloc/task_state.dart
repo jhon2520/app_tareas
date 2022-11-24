@@ -23,14 +23,10 @@ class TaksInitState extends TasksState{
 class TaskSetState extends TasksState{
 
   final List<TaskModel>? newTaksList;
+  final TaskModel? newCurrentTaks;
 
 
-  const TaskSetState({this.newTaksList}):super(existTask: true,taks: newTaksList,);
+  const TaskSetState({this.newTaksList,this.newCurrentTaks}):super(existTask: true,taks: newTaksList,currentTaks: newCurrentTaks);
 
 }
 
-class TaskSetProgressState extends TasksState{
-
-  final TaskModel? newCurrentTask;
-  TaskSetProgressState({this.newCurrentTask}):super(currentTaks: newCurrentTask);
-}

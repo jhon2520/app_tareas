@@ -23,9 +23,9 @@ class TaskWidget extends StatelessWidget {
         boxShadow:const [
           BoxShadow(
             color: Colors.grey,
-            spreadRadius: 2,
-            blurRadius: 15,
-            offset: Offset(0,3)
+            spreadRadius: 1,
+            blurRadius: 2,
+            offset: Offset(0,1)
           )
         ],
         border: Border.all(color: AppConst.whiteColor),
@@ -60,7 +60,6 @@ class _CardTaskContainer extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         Text(task.titulo!.toUpperCase(), style: textStyle.copyWith(fontWeight: FontWeight.bold,fontSize: 18)), 
-        //Text(task.taskId!, style: textStyle), 
         Text(task.date!, style: textStyle),  
         Container(
           padding: const EdgeInsets.all(5),
