@@ -1,17 +1,17 @@
-import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:tareitas/consts/app_const.dart';
-import 'package:tareitas/screens/new_task_screen.dart';
+import 'package:tareitas/router/app_routes_strings.dart';
 import '../widgets/task_list.dart';
+import '../widgets/widget.dart';
 
-class TaskPage extends StatefulWidget {
-  const TaskPage({Key? key}) : super(key: key);
+class HomeScreen extends StatefulWidget {
+  const HomeScreen({Key? key}) : super(key: key);
 
   @override
-  State<TaskPage> createState() => _TaskPageState();
+  State<HomeScreen> createState() => _HomeScreenState();
 }
 
-class _TaskPageState extends State<TaskPage> {
+class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     final Size size = MediaQuery.of(context).size;
@@ -25,6 +25,16 @@ class _TaskPageState extends State<TaskPage> {
           left: 0,
           child:_BackgroundDecorator()
         ),
+        Positioned(
+          top: size.height * 0.1,
+          left: 0,
+          child: const CustomAnimatedContainer(orientarion: 1.0,)
+        ),
+        Positioned(
+          bottom: size.height * 0.1,
+          left: 0,
+          child: const CustomAnimatedContainer(orientarion: -1.0,)
+        ),
         const Positioned(
           bottom: -300,
           left: 0,
@@ -34,11 +44,11 @@ class _TaskPageState extends State<TaskPage> {
         ]
       ),
       floatingActionButton: FloatingActionButton(
-          backgroundColor: AppConst.floatingActionButton,
+          backgroundColor: AppConst.whiteColor,
           onPressed: () => {
-            Navigator.push(context, MaterialPageRoute(builder: (context)=> const NewTaskScreen()))
+            Navigator.pushNamed(context, AppRoutesString.createTaskPage)
           },
-          child: const Icon(Icons.add)),
+          child: const Icon(Icons.add,color: AppConst.backgrounColor,)),
     );
   }
 
@@ -55,9 +65,10 @@ class _BackgroundDecorator extends StatelessWidget {
     return Transform.rotate(
       angle: 35,
       child: Container(
-        decoration: const BoxDecoration(
-          color: AppConst.whiteColor,
-          borderRadius: BorderRadius.all(Radius.circular(40))
+        decoration:  BoxDecoration(
+          color: Colors.black54,
+          borderRadius: const BorderRadius.all(Radius.circular(40)),
+          border: Border.all(color: AppConst.whiteColor)
         ),
         width: 400,
         height: 400,

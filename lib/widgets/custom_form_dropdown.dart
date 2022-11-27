@@ -4,10 +4,10 @@ import 'package:tareitas/consts/app_const.dart';
 import 'package:tareitas/state/task_bloc/task_bloc.dart';
 
 class CustomFormDropDown extends StatefulWidget {
-  String dropDownValue;
+  final String dropDownValue;
   final List<String> items;
 
-  CustomFormDropDown(
+  const CustomFormDropDown(
       {Key? key, required this.dropDownValue, required this.items})
       : super(key: key);
 

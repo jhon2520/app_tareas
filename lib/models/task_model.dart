@@ -1,5 +1,4 @@
 import 'package:flutter/animation.dart';
-import 'package:tareitas/utils/enums/task_state_enum.dart';
 
 class TaskModel{
 
@@ -7,7 +6,7 @@ class TaskModel{
   String? titulo;
   String? descripcion;
   String? date;
-  String? state;
+ // String? state;
   Color? taskColor;
 
   TaskModel({
@@ -15,7 +14,7 @@ class TaskModel{
     this.titulo,
     this.descripcion,
     this.date,
-    this.state,
+   // this.state,
     this.taskColor
   });
   
@@ -32,7 +31,7 @@ class TaskModel{
       titulo: titulo ?? this.titulo,
       descripcion: descripcion ?? this.descripcion,
       date: date ?? this.date,
-      state: state ?? this.state,
+    //  state: state ?? this.state,
       taskColor: taskColor ?? this.taskColor,
     );
   }

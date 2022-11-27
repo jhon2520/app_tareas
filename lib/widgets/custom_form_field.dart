@@ -24,29 +24,32 @@ class CustomFormField extends StatelessWidget {
 
   final fontsyle = AppConst.fontStyle.copyWith(color: AppConst.whiteColor, fontSize: 14);
 
-    return TextFormField(
-                    controller: controller,
-                    textCapitalization: TextCapitalization.sentences,
-                    keyboardType: isMultiline == true ? TextInputType.multiline: TextInputType.text,
-                    maxLines: isMultiline == true ? 4 : 1,
-                    
-                    style: fontsyle,
-                    decoration: InputDecoration(
-                      suffixIcon: IconButton(
-                        icon: const Icon(Icons.close,color: AppConst.whiteColor,size: 16,),
-                        onPressed: onPressedIcon
-                        ),
-                      suffixIconColor: AppConst.whiteColor,
-                      label: Text(labelField,
-                          style: AppConst.fontStyle
-                              .copyWith(color: AppConst.whiteColor)),
-                      focusedBorder: AppConst.formFieldBorder,
-                      enabledBorder: AppConst.formFieldBorder.copyWith(
-                        borderSide: BorderSide(
-                          color: AppConst.whiteColor.withOpacity(0.5),
+    return SizedBox(
+      height: isMultiline != null && isMultiline == true ? 80 : 50,
+      child: TextFormField(
+                      controller: controller,
+                      textCapitalization: TextCapitalization.sentences,
+                      keyboardType: isMultiline == true ? TextInputType.multiline: TextInputType.text,
+                      maxLines: isMultiline == true ? 4 : 1,
+                      
+                      style: fontsyle,
+                      decoration: InputDecoration(
+                        suffixIcon: IconButton(
+                          icon: const Icon(Icons.close,color: AppConst.whiteColor,size: 16,),
+                          onPressed: onPressedIcon
+                          ),
+                        suffixIconColor: AppConst.whiteColor,
+                        label: Text(labelField,
+                            style: AppConst.fontStyle
+                                .copyWith(color: AppConst.whiteColor)),
+                        focusedBorder: AppConst.formFieldBorder,
+                        enabledBorder: AppConst.formFieldBorder.copyWith(
+                          borderSide: BorderSide(
+                            color: AppConst.whiteColor.withOpacity(0.5),
+                          ),
                         ),
                       ),
                     ),
-                  );
+    );
   }
 }

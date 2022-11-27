@@ -27,24 +27,26 @@ class _CustomFormDatePickerState extends State<CustomFormDatePicker> {
     final taskBloc = BlocProvider.of<TaskBloc>(context);
 
 
-        return TextFormField(
-      
-          enableInteractiveSelection: false,
-          // initialValue: date,
-          onChanged: (value) {},
-          controller: _controller,
-          onTap: () => _onTap(taskBloc: taskBloc),
-          style: fontsyle,
-          decoration: InputDecoration(
-            suffixIcon: const Icon(Icons.calendar_month,
-                color: AppConst.whiteColor, size: 14),
-            suffixIconColor: AppConst.whiteColor,
-            label: Text(AppConst.labelDate,
-                style: AppConst.fontStyle.copyWith(color: AppConst.whiteColor)),
-            focusedBorder: AppConst.formFieldBorder,
-            enabledBorder: AppConst.formFieldBorder.copyWith(
-              borderSide: BorderSide(
-                color: AppConst.whiteColor.withOpacity(0.5),
+        return SizedBox(
+          height: 50,
+          child: TextFormField(
+            enableInteractiveSelection: false,
+            // initialValue: date,
+            onChanged: (value) {},
+            controller: _controller,
+            onTap: () => _onTap(taskBloc: taskBloc),
+            style: fontsyle,
+            decoration: InputDecoration(
+              suffixIcon: const Icon(Icons.calendar_month,
+                  color: AppConst.whiteColor, size: 14),
+              suffixIconColor: AppConst.whiteColor,
+              label: Text(AppConst.labelDate,
+                  style: AppConst.fontStyle.copyWith(color: AppConst.whiteColor)),
+              focusedBorder: AppConst.formFieldBorder,
+              enabledBorder: AppConst.formFieldBorder.copyWith(
+                borderSide: BorderSide(
+                  color: AppConst.whiteColor.withOpacity(0.5),
+                ),
               ),
             ),
           ),

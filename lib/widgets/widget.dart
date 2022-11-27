@@ -7,3 +7,7 @@ export './task_widget.dart';
 export './widget.dart';
 export './custom_no_tasks_widget.dart';
 export './custom_color_picker.dart';
+export './custom_select_color_indicator.dart';
+export './primary_button.dart';
+export './secondary_button.dart';
+export './custom_animated_container.dart';

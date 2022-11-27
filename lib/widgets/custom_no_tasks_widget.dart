@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:tareitas/consts/app_const.dart';
-import 'dart:math' as math;
 
 
 class CustomNoTaskWidget extends StatefulWidget {
@@ -14,11 +13,13 @@ class _CustomNoTaskWidgetState extends State<CustomNoTaskWidget>  with SingleTic
 
   late AnimationController _controller;
   late Animation _animtationRotate;
+  late Animation _animationTraslate;
 
   @override
   void initState() {
-    _controller = AnimationController(vsync: this,duration: const Duration(milliseconds: 4000));
-    _animtationRotate = Tween(begin: 0.0,end: 2.0).animate(CurvedAnimation(parent: _controller, curve: Curves.bounceInOut));
+    _controller = AnimationController(vsync: this,duration: const Duration(milliseconds: 3000));
+    _animtationRotate = Tween(begin: 0.0,end: 2.0).animate(CurvedAnimation(parent: _controller, curve: Curves.bounceIn));
+    _animationTraslate = Tween(begin: 0.0,end: 100.0).animate(CurvedAnimation(parent: _controller, curve: Curves.linear));
     super.initState();
   }
 
@@ -38,7 +39,7 @@ class _CustomNoTaskWidgetState extends State<CustomNoTaskWidget>  with SingleTic
       child: const _Child(),
       builder: (BuildContext context, Widget? child) {
         return Transform.translate(
-          offset: Offset(0,_animtationRotate.value * 50),
+          offset: Offset(0,_animationTraslate.value),
           child: Transform.scale(
             scale: _animtationRotate.value,
             child: child,

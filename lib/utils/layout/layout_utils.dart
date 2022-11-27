@@ -11,7 +11,7 @@ class LayoutUtils{
 
     return SnackBar(
       key: key ,
-      content: Text("oeoeoeo")
+      content: const Text("oeoeoeo")
     ); 
   }
 

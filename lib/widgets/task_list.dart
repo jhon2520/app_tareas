@@ -32,7 +32,7 @@ class TasksList extends StatelessWidget {
               padding: const EdgeInsets.symmetric(vertical: 20.0),
               gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                   crossAxisCount: 1,
-                  childAspectRatio: size.width / (size.height / 3)),
+                  childAspectRatio: size.width / (size.height / 4)),
               itemCount: task!.length,
               itemBuilder: (BuildContext context, int index) {
 
