@@ -3,19 +3,22 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'package:tareitas/consts/app_const.dart';
 import 'package:tareitas/consts/snackbar_const.dart';
+import 'package:tareitas/models/task_model.dart';
+import 'package:tareitas/router/app_routes_strings.dart';
 import 'package:tareitas/state/task_bloc/task_bloc.dart';
 import 'package:tareitas/utils/enums/tipo_snackbar_enum.dart';
 import 'package:tareitas/utils/utils.dart';
-import 'package:tareitas/widgets/primary_button.dart';
-import 'package:tareitas/widgets/secondary_button.dart';
-import 'package:tareitas/widgets/show_snackbar.dart';
-import 'package:tareitas/widgets/widget.dart' show CustomColorPicker, CustomFormDatePicker, CustomFormField, CustomSpacer;
+import 'package:tareitas/widgets/widget.dart' show CustomColorPicker, CustomColorPickerController, CustomFormDatePicker, CustomFormField, CustomSpacer, PrimaryButton, SecondaryButton;
 import '../utils/enums/enum.dart' show CustomSpacerSizeEnum, TaskState;
+import '../widgets/show_snackbar.dart';
 
 
 
 class NewTaskScreen extends StatefulWidget {
-  const NewTaskScreen({Key? key}) : super(key: key);
+
+  final TaskModel? task;
+
+  const NewTaskScreen({Key? key, this.task}) : super(key: key);
 
   @override
   State<NewTaskScreen> createState() => _NewTaskScreenState();
@@ -35,12 +38,17 @@ class _NewTaskScreenState extends State<NewTaskScreen> {
   
     late TextEditingController _controllerTitle;
     late TextEditingController _controllerDescription;
+    late TextEditingController _controllerDate;
+    late CustomColorPickerController _controllerColorPicker;
 
     @override
   void initState() {
     _controllerTitle = TextEditingController();
     _controllerDescription = TextEditingController();
+    _controllerDate = TextEditingController();
+    _controllerColorPicker = CustomColorPickerController();
     super.initState();
+    _setearValoresEditados();
   }
 
   @override
@@ -56,7 +64,7 @@ class _NewTaskScreenState extends State<NewTaskScreen> {
       appBar: AppBar(
         centerTitle: true,
         backgroundColor: AppConst.backgrounColor,
-        title: const Text(AppConst.labelCreateTaks),
+        title: Text( widget.task == null ? AppConst.labelCreateTaks : AppConst.labelEditTask),
       ),
       body: Stack(
         children:[ 
@@ -104,22 +112,23 @@ class _NewTaskScreenState extends State<NewTaskScreen> {
                       onPressedIcon: () {},
                     ),
                     const CustomSpacer(size: CustomSpacerSizeEnum.l,),
-                    const CustomFormDatePicker(),
-                    const CustomSpacer(size: CustomSpacerSizeEnum.l,),
+                    CustomFormDatePicker(
+                      controller: _controllerDate,
+                    ),
                     const CustomSpacer(size: CustomSpacerSizeEnum.xxl,),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
-                        const CustomColorPicker(),
-                        SecondaryButton(label: AppConst.labelCancel, onPressed: (){
-            
-                        },),
+                        CustomColorPicker(taskEditColor: widget.task?.taskColor,controller: _controllerColorPicker),
+                        SecondaryButton(
+                          label: AppConst.labelCancel, 
+                          onPressed: ()=> cancelTask(context),), 
                         const CustomSpacer(size: CustomSpacerSizeEnum.x, isHorizontal: true,),
-                        PrimaryButton(label: AppConst.labelAdd,onPressed: (){
-      
-                          _createNewTask(taskBloc, context);
-                        }),
+                        PrimaryButton(
+                          label: widget.task == null ? AppConst.labelAdd : AppConst.labelEdit,
+                          onPressed: ()=>_createNewTask(taskBloc, context)
+                        ),
                       ],
                     )
       
@@ -134,24 +143,80 @@ class _NewTaskScreenState extends State<NewTaskScreen> {
     );
   }
 
+  void cancelTask(BuildContext context){
+    Navigator.pushNamed(context, AppRoutesString.homePage); 
+  }
 
-  
+  void _setearValoresEditados(){
+
+    if(widget.task !=null){
+      _controllerTitle.text = widget.task!.titulo!;
+      _controllerDescription.text = widget.task!.descripcion!;
+      _controllerDate.text = widget.task!.date!;
+    }
+  }
+
+  void _clearValues(){
+      _controllerTitle.clear();
+      _controllerDescription.clear();
+      _controllerDate.clear();
+  }
 
   void _createNewTask(TaskBloc taskBloc, BuildContext context) {
-    try {
-      final currentTask = taskBloc.state.currentTaks!.copyWith(
-          taskId: TimeUtils.idGenerator(),
-          titulo: _controllerTitle.text,
-          descripcion: _controllerDescription.text);
-      taskBloc.add(SetCurrentTaskEvent(currentTask));
-      taskBloc.add(ActivateTaskEvent(currentTask));
 
-      ShowSnackBar.showSnackBar(context, TipoSnakBarEnum.success, SnackbarConst.taskCreatedMessage);
+    if(validarExistenCamposFaltantes()){
+      ShowSnackBar.showSnackBar(context, TipoSnakBarEnum.error,AppConst.labelCamposFaltantes);
+      return;
+    }
+
+    try {
+      if (widget.task != null) {
+        _editTask(taskBloc, context);
+      }
+      if (widget.task == null) {
+        _createTask(taskBloc, context);
+      }
+
+      _clearValues();
+      Navigator.pushNamed(context, AppRoutesString.homePage); 
     } catch (e) {
       ShowSnackBar.showSnackBar(context, TipoSnakBarEnum.error, e.toString());
     }
   }
+
+  bool validarExistenCamposFaltantes(){
+if(_controllerTitle.text.isEmpty || _controllerDescription.text.isEmpty || _controllerDate.text.isEmpty){
+      return true;
+    }
+    return false;
+  }
+
+  void _createTask(TaskBloc taskBloc, BuildContext context) {
+
+    final currentTask = taskBloc.state.currentTaks!.copyWith(
+        taskColor: _controllerColorPicker.color,
+        taskId: TimeUtils.idGenerator(),
+        titulo: _controllerTitle.text,
+        descripcion: _controllerDescription.text,
+        date: _controllerDate.text);
+    taskBloc.add(SetCurrentTaskEvent(currentTask));
+    taskBloc.add(ActivateTaskEvent(currentTask));
+    ShowSnackBar.showSnackBar(
+        context, TipoSnakBarEnum.success, SnackbarConst.taskCreatedMessage);
+  }
+
+  void _editTask(TaskBloc taskBloc, BuildContext context) {
+    final TaskModel taskToEdit = widget.task!.copyWith(
+        taskColor: _controllerColorPicker.color,
+        titulo: _controllerTitle.text,
+        descripcion: _controllerDescription.text,
+        date: _controllerDate.text);
+    taskBloc.add(EditTaskEvent(taskToEdit));
+    ShowSnackBar.showSnackBar(
+        context, TipoSnakBarEnum.success, SnackbarConst.taskEditedMessage);
+  }
 }
+
 
 class _CustomDecoratorBackground extends StatelessWidget {
 

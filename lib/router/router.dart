@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:tareitas/models/task_model.dart';
 import 'package:tareitas/router/app_routes_strings.dart';
 import 'package:tareitas/screens/screens.dart';
 
@@ -8,12 +9,11 @@ class AppRouter{
 
       switch (settings.name) {
         case AppRoutesString.homePage:
-          //*final String ejemploArgumento = settings.arguments as String => se pasaría por el constructor
-          return MaterialPageRoute(builder: (_)=>  const HomeScreen());
+          return MaterialPageRoute(builder: (_)=>  const HomeScreen(),);
         case AppRoutesString.createTaskPage:
-          return MaterialPageRoute(builder: (_)=>  const NewTaskScreen());
+          final TaskModel? task = settings.arguments as TaskModel?;
+          return MaterialPageRoute(builder: (_)=>   NewTaskScreen(task:task));
         default:
-        //** TODO: retornar un loading page
         return MaterialPageRoute(builder: (_)=> const HomeScreen());
       }
 
@@ -22,3 +22,4 @@ class AppRouter{
   }
 
 }
+

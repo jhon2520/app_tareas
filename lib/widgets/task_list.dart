@@ -3,7 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../state/task_bloc/task_bloc.dart';
 import 'widget.dart' show CustomNoTaskWidget, TaskWidget;
 
-class TasksList extends StatelessWidget {
+class TasksList extends StatefulWidget {
   const TasksList({
     Key? key,
     required this.size,
@@ -12,11 +12,19 @@ class TasksList extends StatelessWidget {
   final Size size;
 
   @override
+  State<TasksList> createState() => _TasksListState();
+}
+
+class _TasksListState extends State<TasksList> {
+
+
+
+  @override
   Widget build(BuildContext context) {
     return SafeArea(
       child: SizedBox(
         width: double.infinity,
-        height: size.height,
+        height: widget.size.height,
         child: BlocBuilder<TaskBloc, TasksState>(
           builder: (context, state) {
 
@@ -32,12 +40,13 @@ class TasksList extends StatelessWidget {
               padding: const EdgeInsets.symmetric(vertical: 20.0),
               gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                   crossAxisCount: 1,
-                  childAspectRatio: size.width / (size.height / 4)),
+                  childAspectRatio: widget.size.width / (widget.size.height / 4)),
               itemCount: task!.length,
               itemBuilder: (BuildContext context, int index) {
 
                 final task = state.taks![index];
-                return  TaskWidget(task: task);
+                return  TaskWidget(
+                  task: task);
 
                 
               },

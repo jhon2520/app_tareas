@@ -17,9 +17,9 @@ class MyApp extends StatelessWidget {
         BlocProvider(create: (context)=> TaskBloc()..add(SetCurrentTaskEvent(TaskModel())))
       ],
       child:  MaterialApp(
-        supportedLocales: [
-          const Locale("en","US"), 
-          const Locale("es","CO"), 
+        supportedLocales: const [
+          Locale("en","US"), 
+          Locale("es","CO"), 
         ],
         debugShowCheckedModeBanner: false ,
         title: 'Material App',

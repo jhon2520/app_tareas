@@ -1,10 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:tareitas/consts/app_const.dart';
+import 'package:tareitas/models/task_model.dart';
 import 'package:tareitas/state/task_bloc/task_bloc.dart';
 
 class CustomFormDatePicker extends StatefulWidget {
-  const CustomFormDatePicker({Key? key}) : super(key: key);
+
+  final TextEditingController controller;
+
+  const CustomFormDatePicker({Key? key, required this.controller}) : super(key: key);
 
   @override
   State<CustomFormDatePicker> createState() => _CustomFormDatePickerState();
@@ -12,12 +16,12 @@ class CustomFormDatePicker extends StatefulWidget {
 
 class _CustomFormDatePickerState extends State<CustomFormDatePicker> {
 
-  late TextEditingController _controller;
+  //late TextEditingController _controller;
 
   @override
   void initState() {
     super.initState();
-    _controller = TextEditingController();
+    //_controller = TextEditingController();
   }
 
   @override
@@ -30,10 +34,11 @@ class _CustomFormDatePickerState extends State<CustomFormDatePicker> {
         return SizedBox(
           height: 50,
           child: TextFormField(
+            
             enableInteractiveSelection: false,
             // initialValue: date,
             onChanged: (value) {},
-            controller: _controller,
+            controller: widget.controller,
             onTap: () => _onTap(taskBloc: taskBloc),
             style: fontsyle,
             decoration: InputDecoration(
@@ -66,12 +71,13 @@ class _CustomFormDatePickerState extends State<CustomFormDatePicker> {
       return;
     }
 
-    final currentTask = taskBloc!.state.currentTaks!.copyWith(
+    final currentTask = taskBloc!.state.currentTaks?.copyWith(
       date: newDate.toString().substring(0,10)
     );
-    taskBloc.add(SetCurrentTaskEvent(currentTask));
 
-    //taskBloc!.add(SetTaskDateEvent(newDate.toString().substring(0,10)));
-    _controller.text = newDate.toString().substring(0,10);
+    TaskModel newTask = TaskModel();
+
+    taskBloc.add(SetCurrentTaskEvent(currentTask ?? newTask));
+    widget.controller.text = newDate.toString().substring(0,10);
   }
 }

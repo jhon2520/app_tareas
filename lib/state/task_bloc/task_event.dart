@@ -22,7 +22,13 @@ class SetCurrentTaskEvent extends TaskEvents{
 class DeleteTaskEvent extends TaskEvents{
 
   final String idTaskToDelete;
-
   DeleteTaskEvent(this.idTaskToDelete);
+
+}
+
+class EditTaskEvent extends TaskEvents{
+
+  final TaskModel taskToEdit;
+  EditTaskEvent(this.taskToEdit);
 
 }

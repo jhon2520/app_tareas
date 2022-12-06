@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:tareitas/consts/app_const.dart';
 import 'package:tareitas/router/app_routes_strings.dart';
-import '../widgets/task_list.dart';
 import '../widgets/widget.dart';
 
 class HomeScreen extends StatefulWidget {

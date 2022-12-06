@@ -1,4 +1,3 @@
-import 'dart:developer';
 
 import 'package:bloc/bloc.dart';
 import 'package:flutter/cupertino.dart';
@@ -13,7 +12,6 @@ class TaskBloc extends Bloc<TaskEvents,TasksState>{
 
     on<ActivateTaskEvent>((event, emit) {
 
-      log("Se activó usuario");
       List<TaskModel> listAux = [...[event.newTaks], ...state.taks ?? []];
       emit(TaskSetState( newTaksList: listAux,newCurrentTaks: state.currentTaks));
       
@@ -31,6 +29,18 @@ class TaskBloc extends Bloc<TaskEvents,TasksState>{
       List<TaskModel>? newList = state.taks?.where((element) => element.taskId != event.idTaskToDelete).toList();
 
       emit(TaskSetState(newTaksList: newList));
+
+    },);
+
+    on<EditTaskEvent>((event, emit) {
+      
+      TaskModel newtask = event.taskToEdit;
+
+      List<TaskModel> newTasks = state.taks!.map(( e)=>
+        e.taskId == newtask.taskId ? newtask : e  
+      ).toList();
+
+      emit(TaskSetState(newTaksList: newTasks, newCurrentTaks: state.currentTaks));
 
     },);
 
